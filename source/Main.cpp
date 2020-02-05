@@ -1,4 +1,6 @@
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 int main(void)
 {
@@ -10,6 +12,11 @@ int main(void)
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+
+    GLenum err = glewInit();
+    if (GLEW_OK != err)
+        std::cout << "Error: GLEW init failed!" << std::endl;
+
     if (!window)
     {
         glfwTerminate();

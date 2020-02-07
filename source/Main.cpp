@@ -112,17 +112,25 @@ int main(void)
         -0.5f, -0.5f, 
         0.5f, -0.5f,
         0.5f, 0.5f,
+        -0.5f, 0.5f
+    };
 
-        0.5f, 0.5f,
-        -0.5f, 0.5f,
-        -0.5f, -0.5f
-
+    unsigned int indices[] = {
+        0,1,2,
+        2,3,0
     };
 
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer); //this buffer is a source of vetexes (selected buffer)
     glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+
+    unsigned int ibo;
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); //this buffer is a source of vetexes (selected buffer)
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices , GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
     
@@ -138,7 +146,7 @@ int main(void)
     {
         /* Render here */
         
-        glDrawArrays(GL_TRIANGLES, 0 , 6);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
